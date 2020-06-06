@@ -1,4 +1,8 @@
+.vscode/
 
-Pipfile
+__pycache__/
 
-Pipfile.lock
+.env
+
+venv/
+.cache-hsunx
