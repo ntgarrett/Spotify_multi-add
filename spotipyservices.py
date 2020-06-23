@@ -11,9 +11,9 @@ if (len(sys.argv) != 2):
 client_id = os.getenv('SPOTIPY_CLIENT_ID')
 client_secret = os.getenv('SPOTIPY_CLIENT_SECRET')
 redirect_uri = os.getenv('SPOTIPY_REDIRECT_URI')
-scope = "playlist-modify-public"
-username = sys.argv[1]
 
+scope = "playlist-modify-public user-read-private"
+username = sys.argv[1]
 token = spotipy.util.prompt_for_user_token(username, scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
 sp = spotipy.Spotify(auth=token)
 
@@ -28,9 +28,17 @@ def list_my_playlists():
         else:
             playlists = None
 
+def find_song(key):
+	return sp.search(q=key,type='track',market="from_token",limit=5)
+
 # Script
 if token:
     print("Authorized", username)
     list_my_playlists()
+
+    print("Search for track: ", end='')
+    q = input()
+    print(find_song(q))
+
 else:
     print("Failed to authorize", username)
