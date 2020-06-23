@@ -29,7 +29,7 @@ def list_my_playlists():
             playlists = None
 
 def find_song(key):
-	return sp.search(q=key,type='track',market="from_token",limit=5)
+	return sp.search(q=key,type='track',market="from_token")
 
 # Script
 if token:
