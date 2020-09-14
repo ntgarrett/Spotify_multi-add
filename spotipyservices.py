@@ -2,7 +2,9 @@ import os
 import sys
 import spotipy
 
-if (len(sys.argv) != 2):
+if (len(sys.argv) > 1):
+    username = sys.argv[1]
+else:
     print("Usage: python spotipyservices.py [your-spotify-username]")
     print("Specify your Spotify username.")
     sys.exit()
@@ -12,7 +14,6 @@ client_id = os.getenv('SPOTIPY_CLIENT_ID')
 client_secret = os.getenv('SPOTIPY_CLIENT_SECRET')
 redirect_uri = os.getenv('SPOTIPY_REDIRECT_URI')
 scope = "playlist-modify-public"
-username = sys.argv[1]
 
 token = spotipy.util.prompt_for_user_token(username, scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
 sp = spotipy.Spotify(auth=token)
