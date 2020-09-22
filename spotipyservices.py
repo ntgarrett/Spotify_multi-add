@@ -1,6 +1,7 @@
 import os
 import sys
 import spotipy
+from flask import Flask
 
 if (len(sys.argv) > 1):
     username = sys.argv[1]
@@ -35,3 +36,12 @@ def find_song(key):
 def add_track_to_playlists(track, selectedPlaylists):
     for playlist in selectedPlaylists:
         sp.user_playlist_add_tracks(username,playlist,track)
+
+
+app = Flask(__name__)
+@app.route('/')
+def test():
+    return 'Works'
+
+if __name__ == '__main__':
+    app.run()
