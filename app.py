@@ -18,14 +18,12 @@ scope = "playlist-modify-public playlist-modify-private playlist-read-private us
 token = spotipy.util.prompt_for_user_token(username, scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
 sp = spotipy.Spotify(auth=token)
 
-
 # Spotipy methods
 def list_my_playlists():
     playlists = sp.user_playlists(username)
     results = []
     while playlists:
         for i, playlist in enumerate(playlists['items']):
-            print("{} {}".format(playlist['id'], playlist['name']))
             if (playlist['owner']['id'] == username):
                 results.append({
                     "id:": playlist['id'],
@@ -35,7 +33,7 @@ def list_my_playlists():
             playlists = sp.next(playlists)
         else:
             playlists = None
-        #return jsonify(results)
+        return jsonify(results)
 
 def find_song(key):
     return sp.search(q=key,type='track',market="from_token")
@@ -59,14 +57,13 @@ def search():
     key = request.args.get('key')
     return find_song(key)
 
-#endpoint for add track to playlists
 @app.route('/addtrack', methods=['POST'])
 def addtrack():
     req_data = request.get_json()
     track_id = (req_data['Track_ID'])
     playlist_ids = req_data["Playlist_IDs"]
     add_track_to_playlists([track_id], playlist_ids)
-    return track_id + '  ' + str(playlist_ids)
+    return "Added track to playlists"
     
 if __name__ == '__main__':
     app.run()
