@@ -63,7 +63,7 @@ def addtrack():
     track_id = (req_data['Track_ID'])
     playlist_ids = req_data["Playlist_IDs"]
     add_track_to_playlists([track_id], playlist_ids)
-    return "Added track to playlists"
+    return "Added " + str(track_id) + " to playlists: " + str(playlist_ids)
     
 if __name__ == '__main__':
     app.run()
