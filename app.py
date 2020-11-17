@@ -1,7 +1,8 @@
 import os
 import sys
 import spotipy
-from flask import Flask, render_template, redirect, request, url_for, jsonify
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 if (len(sys.argv) > 1):
     username = sys.argv[1]
@@ -26,8 +27,8 @@ def list_my_playlists():
         for i, playlist in enumerate(playlists['items']):
             if (playlist['owner']['id'] == username):
                 results.append({
-                    "id:": playlist['id'],
-                    "name:": playlist['name'] 
+                    "id": playlist['id'],
+                    "name": playlist['name'] 
                 })
         if playlists['next']:
             playlists = sp.next(playlists)
@@ -43,21 +44,22 @@ def add_track_to_playlists(track, selectedPlaylists):
         sp.user_playlist_add_tracks(username,playlist,track)
 
 app = Flask(__name__)
+CORS(app, resources=r'/api/*')
 
-@app.route('/')
+@app.route('/api')
 def index():
     return "Authorized {}".format(username)
 
-@app.route('/playlists')
+@app.route('/api/playlists')
 def playlists():
     return list_my_playlists()
 
-@app.route('/search')
+@app.route('/api/search')
 def search():
     key = request.args.get('key')
     return find_song(key)
 
-@app.route('/addtrack', methods=['POST'])
+@app.route('/api/addtrack', methods=['POST'])
 def addtrack():
     req_data = request.get_json()
     track_id = (req_data['Track_ID'])
