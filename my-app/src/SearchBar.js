@@ -1,41 +1,53 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
+import axios from 'axios';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-    width: 400,
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-}));
+export default class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tracks: [],
+      loading: false,
+      value: ''
+    }
+  }
 
-function SearchBar() {
-  const classes = useStyles();
+  search = async key => {
+    this.setState({ loading: true });
+    const response = await axios(`http://127.0.0.1:5000/api/search?key=${key}`);
+    const tracks = await response.data;
 
-  return (
-    <Paper component="form" className={classes.root}>
-      <InputBase
-        className={classes.input}
-        placeholder="Search"
-        inputProps={{ 'aria-label': 'search' }}
-      />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-    </Paper>
-  );
+    this.setState({ tracks: tracks.tracks.items, loading: false });
+  };
+
+  onKeyDown = async e => {
+    this.search(e.target.value);
+    this.setState({ value: e.target.value });
+  };
+
+  get renderTracks() {
+    let tracks = <h1>No tracks found</h1>;
+    if (this.state.tracks) {
+      tracks = <ul>{this.state.tracks.map((track) => <li key={track.id}>{track.name}</li>)}</ul>;
+    }
+
+    return tracks;
+  }
+
+  render() {
+    return (
+      <div>
+        <input 
+          value={this.state.value}
+          onChange={e => this.setState({value: e.target.value})}
+          onKeyPress={e => {
+            if (e.key === 'Enter') {
+              this.onKeyDown(e);
+            }
+          }}
+          placeholder="Search for tracks"
+        />
+        {this.renderTracks}
+      </div>
+    );
+  }
 }
-
-export default SearchBar;
