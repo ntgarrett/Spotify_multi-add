@@ -43,7 +43,6 @@ export default class Playlists extends React.Component {
           <CheckBox
             onChange={(e) => {
               this.handleChange(e, playlist);
-              console.log(this.state.selectedPlaylists);
             }}
           />
         </ListItemIcon>

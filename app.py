@@ -30,11 +30,11 @@ def list_my_playlists():
             "id": playlist['id'],
             "name": playlist['name'] 
           })
-      if playlists['next']:
-        playlists = sp.next(playlists)
-      else:
-        playlists = None
-      return jsonify(results)
+    if playlists['next']:
+      playlists = sp.next(playlists)
+    else:
+      playlists = None
+    return jsonify(results)
 
 def find_song(key):
   return sp.search(q=key,type='track',market="from_token")
