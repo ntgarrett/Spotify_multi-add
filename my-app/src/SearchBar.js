@@ -1,11 +1,19 @@
 import React from 'react';
 import axios from 'axios';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import InputBase from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
 
 export default class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tracks: [],
+      selectedTrack: null,
       loading: false,
       value: ''
     }
@@ -19,35 +27,41 @@ export default class SearchBar extends React.Component {
     this.setState({ tracks: tracks.tracks.items, loading: false });
   };
 
-  onKeyDown = async e => {
-    this.search(e.target.value);
-    this.setState({ value: e.target.value });
+  startSearch() {
+    this.search(this.state.value);
   };
 
   get renderTracks() {
-    let tracks = <h1>No tracks found</h1>;
+    let tracks;
     if (this.state.tracks) {
-      tracks = <ul>{this.state.tracks.map((track) => <li key={track.id}>{track.name}</li>)}</ul>;
-    }
+    tracks = <List>{this.state.tracks.map((track) => 
+        <ListItem key={track.id}> 
+          <ListItemText primary={track.name} secondary={(track.artists).map((artist) => artist.name).join(', ')}/> 
+        </ListItem>)}
+      </List>; }
 
     return tracks;
   }
 
   render() {
     return (
-      <div>
-        <input 
+      <Paper elevation={4}>
+        <InputBase 
+          type="search"
           value={this.state.value}
           onChange={e => this.setState({value: e.target.value})}
           onKeyPress={e => {
             if (e.key === 'Enter') {
-              this.onKeyDown(e);
+              this.startSearch();
             }
           }}
           placeholder="Search for tracks"
-        />
+        /> 
+        <IconButton onClick={() => this.startSearch()}>
+          <SearchIcon />
+        </IconButton>
         {this.renderTracks}
-      </div>
+      </Paper>
     );
   }
 }
