@@ -34,13 +34,17 @@ export default class SearchBar extends React.Component {
   get renderTracks() {
     let tracks;
     if (this.state.tracks) {
-    tracks = <List>{this.state.tracks.map((track) => 
+      tracks = <List>{this.state.tracks.map((track) => 
         <ListItem key={track.id}> 
           <ListItemText primary={track.name} secondary={(track.artists).map((artist) => artist.name).join(', ')}/> 
         </ListItem>)}
-      </List>; }
-
-    return tracks;
+      </List>; 
+    }
+    if (this.state.value) {
+      return tracks; 
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -49,7 +53,12 @@ export default class SearchBar extends React.Component {
         <InputBase 
           type="search"
           value={this.state.value}
-          onChange={e => this.setState({value: e.target.value})}
+          onChange={e => {
+            this.setState({value: e.target.value})
+            if (this.state.value === '') {
+              this.setState({tracks: [] })
+            }
+          }}
           onKeyPress={e => {
             if (e.key === 'Enter') {
               this.startSearch();
