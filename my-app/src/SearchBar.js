@@ -7,6 +7,7 @@ import InputBase from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import Avatar from '@material-ui/core/Avatar';
 
 export default class SearchBar extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ export default class SearchBar extends React.Component {
     if (this.state.tracks) {
       tracks = <List>{this.state.tracks.map((track) => 
         <ListItem key={track.id}> 
+          <Avatar variant="square" alt="album-cover" src={track.album.images[0].url}/>
           <ListItemText primary={track.name} secondary={(track.artists).map((artist) => artist.name).join(', ')}/> 
         </ListItem>)}
       </List>; 
