@@ -42,11 +42,7 @@ export default class SearchBar extends React.Component {
         </ListItem>)}
       </List>; 
     }
-    if (this.state.value) {
-      return tracks; 
-    } else {
-      return null;
-    }
+    return this.state.value ? tracks :  null;
   }
 
   render() {
