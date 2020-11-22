@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
-import Header from './Header';
-import SearchBar from './SearchBar';
-import Playlists from './Playlists';
+import Header from './components/Header';
+import SearchBar from './containers/SearchBar';
+import PlaylistsContainer from './containers/PlaylistsContainer';
 
 function App() {
   return (
     <div>
-      <Header></Header>
-      <SearchBar></SearchBar>
-      <Playlists></Playlists>
+      <Header/>
+      <SearchBar/>
+      <PlaylistsContainer/>
     </div>
   );
 }

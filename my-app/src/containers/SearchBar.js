@@ -57,8 +57,8 @@ export default class SearchBar extends React.Component {
               this.setState({tracks: [] })
             }
           }}
-          onKeyPress={e => {
-            if (e.key === 'Enter') {
+          onKeyPress={event => {
+            if (event.key === 'Enter') {
               this.startSearch();
             }
           }}
