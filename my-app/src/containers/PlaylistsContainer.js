@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Playlists from '../components/Playlists';
 
-function PlaylistsContainer(props) {
+const PlaylistsContainer = (props) => {
   const [playlists, setPlaylists] = useState([]);
   const [selectedPlaylists, setSelectedPlaylists] = useState([]);
 
@@ -16,7 +16,6 @@ function PlaylistsContainer(props) {
       checkedList.splice(index, 1);
     }
     setSelectedPlaylists(checkedList);
-    console.log(selectedPlaylists);
   }
 
   useEffect(() => {
