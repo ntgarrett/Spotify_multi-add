@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { RetrievePlaylists } from '../utils/api';
 import Playlists from '../components/Playlists';
 
 const PlaylistsContainer = (props) => {
@@ -19,11 +19,14 @@ const PlaylistsContainer = (props) => {
   }
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/api/playlists')
-      .then((response) => {
-        setPlaylists(response.data);
-      })
-      .catch((error) => console.log(error));
+    try {
+      RetrievePlaylists()
+        .then((response) => {
+          setPlaylists(response.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   return (

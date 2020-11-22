@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import SearchBar from '../components/SearchBar';
+import { SearchForTrack } from '../utils/api';
 
 const SearchBarContainer = (props) => {
   const [tracks, setTracks] = useState([]);
@@ -12,9 +12,15 @@ const SearchBarContainer = (props) => {
   const [value, setValue] = useState('');
 
   const search = async key => {
-    const response = await axios(`http://127.0.0.1:5000/api/search?key=${key}`);
-    const tracks = await response.data;
-    setTracks(tracks.tracks.items);
+    try {
+      SearchForTrack(key)
+        .then((response) => {
+          const trackResults = response.data;
+          setTracks(trackResults.tracks.items);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const startSearch = () => {
