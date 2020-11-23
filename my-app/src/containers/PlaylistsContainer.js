@@ -4,7 +4,7 @@ import Playlists from '../components/Playlists';
 
 const PlaylistsContainer = (props) => {
   const [playlists, setPlaylists] = useState([]);
-  const [selectedPlaylists, setSelectedPlaylists] = useState([]);
+  const {selectedPlaylists, setSelectedPlaylists} = props;
 
   const handleChange = (e, playlist) => {
     const checkedList = selectedPlaylists;
