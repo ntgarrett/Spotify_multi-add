@@ -1,14 +1,21 @@
 import React from 'react';
-import Track from '../components/Track';
+import TrackContainer from '../containers/TrackContainer';
 import List from '@material-ui/core/List';
 
 const TrackResults = (props) => {
-  const {tracks} = props;
+  const {tracks, setSelectedTrack, selectedTrack} = props;
   
   return (
     <List>
       {tracks.map((track) => {
-        return (<Track key={track.id} track={track} />);
+        return (
+          <TrackContainer 
+            key={track.id}
+            track={track}
+            setSelectedTrack={setSelectedTrack}
+            selectedTrack={selectedTrack}
+          />
+        );
       })}
     </List>
   );

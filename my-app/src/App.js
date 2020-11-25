@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import SearchBarContainer from './containers/SearchBarContainer';
 import PlaylistsContainer from './containers/PlaylistsContainer';
-import TrackResults from './components/TrackResults';
+import TrackResultsContainer from './containers/TrackResultsContainer';
 import { Grid } from '@material-ui/core/';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
             <SearchBarContainer 
               setTracks={setTracks}
               />
-            <TrackResults 
+            <TrackResultsContainer 
               tracks={tracks}
               setSelectedTrack={setSelectedTrack}
             />
