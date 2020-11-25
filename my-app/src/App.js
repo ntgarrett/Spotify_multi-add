@@ -4,6 +4,7 @@ import Header from './components/Header';
 import SearchBarContainer from './containers/SearchBarContainer';
 import PlaylistsContainer from './containers/PlaylistsContainer';
 import TrackResultsContainer from './containers/TrackResultsContainer';
+import AddButtonContainer from './containers/AddButtonContainer';
 import { Grid } from '@material-ui/core/';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <TrackResultsContainer 
               tracks={tracks}
               setSelectedTrack={setSelectedTrack}
+              selectedTrack={selectedTrack}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -30,6 +32,10 @@ function App() {
               setSelectedPlaylists={setSelectedPlaylists}/>
           </Grid> 
       </Grid>
+      <AddButtonContainer 
+        selectedTrack={selectedTrack}
+        selectedPlaylists={selectedPlaylists}
+      />
     </div>
   );
 }

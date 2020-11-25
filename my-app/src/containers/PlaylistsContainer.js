@@ -10,7 +10,7 @@ const PlaylistsContainer = (props) => {
     const checkedList = selectedPlaylists;
 
     if (e.target.checked) {
-      checkedList.push(playlist);
+      checkedList.push(playlist.id);
     } else {
       const index = checkedList.indexOf(playlist);
       checkedList.splice(index, 1);

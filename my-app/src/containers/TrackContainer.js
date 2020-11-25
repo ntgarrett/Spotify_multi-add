@@ -2,10 +2,14 @@ import React from 'react';
 import Track from '../components/Track';
 
 const TrackContainer = (props) => {
-  const {track, setSelectedTrack} = props;
+  const {track, setSelectedTrack, selectedTrack} = props;
 
   function handleClick(e,track) {
-    setSelectedTrack(track);
+    if (track === selectedTrack) {
+      setSelectedTrack("");
+    } else {
+      setSelectedTrack(track);
+    }
   }
 
   return (

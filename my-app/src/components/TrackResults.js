@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import { Grid } from '@material-ui/core/';
 
 const TrackResults = (props) => {
-  const { tracks, setSelectedTrack, selectedTrack } = props;
+  const {tracks, setSelectedTrack, selectedTrack} = props;
 
   return (
     <List>
@@ -14,6 +14,7 @@ const TrackResults = (props) => {
             <TrackContainer
               track={track}
               setSelectedTrack={setSelectedTrack}
+              selectedTrack={selectedTrack}
             />
           </Grid>
         );

@@ -10,7 +10,7 @@ async function SearchForTrack(key) {
   return await axios.get(API_ENDPOINT + `search?key=${key}`);
 }
 
-async function AddTrackToPlaylists(trackID, ...playlists) {
+async function AddTrackToPlaylists(trackID, playlists) {
   let data = { Track_ID: trackID, Playlist_IDs: playlists};
   return await axios.post((API_ENDPOINT + 'addtrack'), data);
 }
