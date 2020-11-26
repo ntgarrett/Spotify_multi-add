@@ -9,7 +9,7 @@ import { Grid } from '@material-ui/core/';
 
 function App() {
   const [tracks, setTracks] = useState([]);
-  const [selectedTrack, setSelectedTrack] = useState('');
+  const [selectedTrack, setSelectedTrack] = useState({});
   const [selectedPlaylists, setSelectedPlaylists] = useState([]);
 
   return (

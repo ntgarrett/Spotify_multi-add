@@ -7,7 +7,7 @@ const PlaylistsContainer = (props) => {
   const {selectedPlaylists, setSelectedPlaylists} = props;
 
   const handleChange = (e, playlist) => {
-    const checkedList = selectedPlaylists;
+    const checkedList = [...selectedPlaylists];
 
     if (e.target.checked) {
       checkedList.push(playlist.id);

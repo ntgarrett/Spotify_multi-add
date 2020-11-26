@@ -4,9 +4,9 @@ import Track from '../components/Track';
 const TrackContainer = (props) => {
   const {track, setSelectedTrack, selectedTrack} = props;
 
-  function handleClick(e,track) {
+  const handleClick = (e,track) => {
     if (track === selectedTrack) {
-      setSelectedTrack("");
+      setSelectedTrack({});
     } else {
       setSelectedTrack(track);
     }
