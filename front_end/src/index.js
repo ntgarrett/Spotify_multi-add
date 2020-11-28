@@ -14,7 +14,6 @@ ReactDOM.render(
           <Route exact path="/">
             <App />
           </Route>
-          <Route exact path="/not-found" component={PageNotFound}></Route>
           <Route path="*" component={PageNotFound} />
         </Switch>
       </div>
