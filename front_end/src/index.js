@@ -11,7 +11,7 @@ ReactDOM.render(
     <Router>
       <div>
         <Switch>
-          <Route exact path="/app">
+          <Route exact path="/">
             <App />
           </Route>
           <Route exact path="/not-found" component={PageNotFound}></Route>

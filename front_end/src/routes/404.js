@@ -8,7 +8,7 @@ const PageNotFound = (props) => {
       <h1>404: Page Not Found</h1>
       <Button
         size="large"
-        onClick={() => history.push("/app")}
+        onClick={() => history.push("/")}
       >
       Return to Application  
       </Button>
