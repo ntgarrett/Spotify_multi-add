@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RetrievePlaylists } from '../utils/api';
+import { RetrievePlaylists } from '../../utils/api';
 import Playlists from '../components/Playlists';
 
 const PlaylistsContainer = (props) => {

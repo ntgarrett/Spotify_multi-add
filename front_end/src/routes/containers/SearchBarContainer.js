@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SearchBar from '../components/SearchBar';
-import { SearchForTrack } from '../utils/api';
+import { SearchForTrack } from '../../utils/api';
 
 const SearchBarContainer = (props) => {
   const {setTracks} = props;

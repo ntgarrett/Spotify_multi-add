@@ -1,6 +1,6 @@
 import React from 'react';
 import AddButton from '../components/AddButton';
-import { AddTrackToPlaylists } from '../utils/api';
+import { AddTrackToPlaylists } from '../../utils/api';
 
 const AddButtonContainer = (props) => {
   const {selectedTrack, selectedPlaylists} = props;
