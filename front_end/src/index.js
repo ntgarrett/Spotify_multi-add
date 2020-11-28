@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import App from './routes/App';
+import PageNotFound from './routes/404';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/app">
+            <App />
+          </Route>
+          <Route exact path="/not-found" component={PageNotFound}></Route>
+          <Route path="*" component={PageNotFound} />
+        </Switch>
+      </div>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
