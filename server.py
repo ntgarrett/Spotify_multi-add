@@ -10,7 +10,7 @@ load_dotenv()
 if (len(sys.argv) > 1):
   username = sys.argv[1]
 else:
-  print("Usage: python app.py [your-spotify-username]")
+  print("Usage: python server.py [your-spotify-username]")
   print("Specify your Spotify username.")
   sys.exit()
 
