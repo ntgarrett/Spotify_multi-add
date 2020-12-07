@@ -3,7 +3,7 @@ import SearchBar from '../components/SearchBar';
 import { SearchForTrack } from '../../utils/api';
 
 const SearchBarContainer = (props) => {
-  const {setTracks} = props;
+  const {setTracks, setSelectedTrack} = props;
   const [value, setValue] = useState('');
 
   function search() {
@@ -20,8 +20,9 @@ const SearchBarContainer = (props) => {
 
   const onChange = e => {
     setValue(e.target.value);
-    if (value === '') {
+    if (value.length === 0) {
       setTracks([]);
+      setSelectedTrack({});
     }
     if (e.key === 'Enter') {
       search();
