@@ -59,7 +59,7 @@ const Playlists = (props) => {
           My Playlists
         </Typography>
       </Paper>
-      <Paper className={classes.itemlist}>
+      <Paper className={classes.itemlist} style={{ visibility: props.playlists.length > 0 ? "visible" : "hidden" }}>
         <List>
           {plistItems}
         </List>
