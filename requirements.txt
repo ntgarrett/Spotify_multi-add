@@ -1,13 +1,15 @@
 appdirs==1.4.4
-certifi==2020.11.8
-chardet==3.0.4
+cachelib==0.1.1
+certifi==2020.12.5
+chardet==4.0.0
 click==7.1.2
 distlib==0.3.1
 filelock==3.0.12
 Flask==1.1.2
 Flask-Cors==3.0.9
+Flask-Session==0.3.2
 idna==2.10
-importlib-metadata==3.1.0
+importlib-metadata==3.1.1
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
@@ -16,7 +18,7 @@ requests==2.25.0
 six==1.15.0
 spotipy==2.16.1
 urllib3==1.26.2
-virtualenv==20.2.1
+virtualenv==20.2.2
 virtualenv-clone==0.5.4
 Werkzeug==1.0.1
 zipp==3.4.0
