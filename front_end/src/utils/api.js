@@ -1,18 +1,74 @@
-import axios from 'axios';
+const axios = require('axios');
+const API_ENDPOINT = "https://localhost:5000/api/";
 
-const API_ENDPOINT = "http://127.0.0.1:5000/api/";
+const GetAuthURL = async (id) => {
+  return await axios({
+    method: 'get',
+    url: API_ENDPOINT + 'verify',
+    headers: {
+      'Authorization': id
+    },
+    withCredentials: true
+  });
+};
 
-async function RetrievePlaylists() {
-  return await axios.get(API_ENDPOINT + "playlists");
-}
+const SendCallbackCode = async (id, authCode) => {
+  let data = { code: authCode };
+  return await axios({
+    method: 'post',
+    url: API_ENDPOINT + 'callback',
+    data: data,
+    headers: {
+      'Authorization': id
+    },
+    withCredentials: true,
+  });
+};
 
-async function SearchForTrack(key) {
-  return await axios.get(API_ENDPOINT + `search?key=${key}`);
-}
+const RetrievePlaylists = async (id) => {
+  return await axios({
+    method: 'get',
+    url: API_ENDPOINT + 'playlists',
+    headers: {
+      'Authorization': id
+    },
+    withCredentials: true,
+  });
+};
 
-async function AddTrackToPlaylists(trackID, playlists) {
-  let data = { Track_ID: trackID, Playlist_IDs: playlists};
-  return await axios.post((API_ENDPOINT + 'addtrack'), data);
-}
+const SearchForTrack = async (id, key) => {
+  return await axios({
+    method: 'get',
+    url: API_ENDPOINT + `search?key=${key}`,
+    headers: {
+      'Authorization': id,
+    },
+    withCredentials: true,
+  });
+};
 
-export { RetrievePlaylists, SearchForTrack, AddTrackToPlaylists, API_ENDPOINT };
+const AddTrackToPlaylists = async (id, trackID, playlists) => {
+  let data = { Track_ID: trackID, Playlist_IDs: playlists };
+  return await axios({
+    method: 'post',
+    url: API_ENDPOINT + 'addtrack',
+    headers: {
+      'Authorization': id,
+    },
+    data: data,
+    withCredentials: true,
+  });
+};
+
+const SignOut = async (id) => {
+  return await axios({
+    method: 'post',
+    url: API_ENDPOINT + 'signout',
+    headers: {
+      'Authorization': id,
+    },
+    withCredentials: true,
+  });
+};
+
+export { RetrievePlaylists, SearchForTrack, AddTrackToPlaylists, GetAuthURL, SendCallbackCode, SignOut, API_ENDPOINT };

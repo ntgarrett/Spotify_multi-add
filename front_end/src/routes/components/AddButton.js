@@ -10,7 +10,6 @@ const styles = (theme) => ({
   button: {
     fontFamily: "Didact Gothic",
     fontSize: "1.5em",
-    //textPrimary: "white",
     textTransform: "none",
   }
 });
@@ -20,7 +19,6 @@ const AddButton = (props) => {
   return (
     <div className={classes.root}>
       <Button
-        theme="dark"
         className={classes.button}
         size="large"
         variant="contained"

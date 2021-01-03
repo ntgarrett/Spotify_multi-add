@@ -1,42 +1,47 @@
-import React, { useState } from 'react';
-import Header from './components/Header';
-import {
-  Textfield,
-  Button,
-  Container
-} from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { v4 as uuidv4 } from 'uuid';
+import { GetAuthURL } from '../utils/api';
+import { Container, CircularProgress } from "@material-ui/core";
 
-const Login = (props) => {
-  const { history } = props;
-  const [username, setUsername] = useState('');
+const Login = () => {
+  const [cookies, setCookie] = useCookies(["userID"]);
 
-  const handleSubmit = () => {
-    try {
-      // login
-      // navigate to home page
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (typeof cookies.userID == "undefined") {
+      const id = uuidv4();
+      setCookie("userID", id, {
+        expires: 0
+      });
     }
-  };
+  }, [setCookie, cookies.userID]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      GetAuthURL(cookies.userID)
+        .then((res) => {
+          window.location.href = res.data.auth_url;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [cookies.userID]);
+
 
   return (
     <div>
-      <Header />
-      <Container>
-        <Textfield 
-          placeholder="Enter your Spotify Username"
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
-        <Button
-          disabled={username.length <= 0}
-          variant="contained"
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
+      <Container
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
       </Container>
     </div>
   );

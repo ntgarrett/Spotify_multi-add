@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
+import { SignOut } from '../utils/api';
+import { useCookies } from 'react-cookie';
+import { Redirect } from 'react-router-dom';
 import Header from './components/Header';
 import SearchBarContainer from './containers/SearchBarContainer';
 import PlaylistsContainer from './containers/PlaylistsContainer';
@@ -7,7 +10,10 @@ import TrackResultsContainer from './containers/TrackResultsContainer';
 import AddButtonContainer from './containers/AddButtonContainer';
 import AddMessage from './components/AddMessage';
 import Snackbar from '@material-ui/core/Snackbar';
-import { Grid } from '@material-ui/core/';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import { Grid, Typography } from '@material-ui/core/';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
@@ -21,10 +27,41 @@ const styles = (theme) => ({
     width: "40vw",
     marginLeft: "auto",
     marginRight: "auto",
+    paddingTop: "3vh",
   },
-  end: {
+  addbutton: {
     justifyContent: "center",
-    marginTop: "7vh",
+    marginTop: "5vh",
+  },
+  plistheading: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "0.4em",
+    fontFamily: "Didact Gothic",
+    fontSize: "1.3em",
+  },
+  plistheadingbox: {
+    borderBottomLeftRadius: "0",
+    borderBottomRightRadius: "0",
+  },
+  plistcontents: {
+    overflow: "auto",
+    height: "50vh",
+    borderTopLeftRadius: "0",
+    borderTopRightRadius: "0",
+  },
+  trackresultsbox: {
+    overflow: "auto",
+    height: "50vh",
+    borderTopLeftRadius: "0",
+    borderTopRightRadius: "0",
+  },
+  signoutbutton: {
+    color: "white",
+    fontFamily: "Didact Gothic",
+    marginLeft: "auto",
+    marginRight: "4vw",
+    marginTop: "1vh",
   },
 });
 
@@ -35,6 +72,7 @@ const App = (props) => {
   const [selectedPlaylists, setSelectedPlaylists] = useState([]);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["userID"]);
 
   const handle_Success_Close = () => {
     setSuccess(false);
@@ -44,63 +82,94 @@ const App = (props) => {
     setError(false);
   };
 
+  const handle_Sign_Out = () => {
+    SignOut(cookies.userID)
+      .then(() => {
+        removeCookie('userID');
+      });
+  };
+
   return (
-    <div className={classes.root}>
-      <Header />
-      <Grid container>
-        <Grid item xs={12} sm={6}>
-          <div className={classes.cell}>
-            <SearchBarContainer
-              setTracks={setTracks}
-              setSelectedTrack={setSelectedTrack}
-            />
-            <TrackResultsContainer
-              tracks={tracks}
-              setSelectedTrack={setSelectedTrack}
+    (typeof cookies.userID == "undefined") ?
+      <Redirect to="/" />
+      :
+      <div className={classes.root}>
+        <Toolbar
+          style={{ minHeight: "3vh" }}
+        >
+          <Button
+            className={classes.signoutbutton}
+            onClick={handle_Sign_Out}
+          >
+            Sign Out
+          </Button>
+        </Toolbar>
+        <Header />
+        <Grid container>
+          <Grid item xs={12} sm={6}>
+            <div className={classes.cell}>
+              <SearchBarContainer
+                setTracks={setTracks}
+                setSelectedTrack={setSelectedTrack}
+              />
+              <Paper className={classes.trackresultsbox}>
+                <TrackResultsContainer
+                  tracks={tracks}
+                  setSelectedTrack={setSelectedTrack}
+                  selectedTrack={selectedTrack}
+                />
+              </Paper>
+            </div>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <div className={classes.cell}>
+              <Paper className={classes.plistheadingbox} elevation={0}>
+                <Typography className={classes.plistheading}>
+                  My Playlists
+              </Typography>
+              </Paper>
+              <Paper className={classes.plistcontents}>
+                <PlaylistsContainer
+                  selectedPlaylists={selectedPlaylists}
+                  setSelectedPlaylists={setSelectedPlaylists}
+                />
+              </Paper>
+            </div>
+          </Grid>
+        </Grid>
+        <Grid container className={classes.addbutton}>
+          <Grid item>
+            <AddMessage
               selectedTrack={selectedTrack}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <div className={classes.cell}>
-            <PlaylistsContainer
               selectedPlaylists={selectedPlaylists}
-              setSelectedPlaylists={setSelectedPlaylists}
             />
-          </div>
+            <AddButtonContainer
+              selectedTrack={selectedTrack}
+              setSelectedTrack={setSelectedTrack}
+              selectedPlaylists={selectedPlaylists}
+              setSuccess={setSuccess}
+              setError={setError}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container className={classes.end}>
-        <Grid item>
-          <AddMessage
-            selectedTrack={selectedTrack}
-            selectedPlaylists={selectedPlaylists}
+        <div>
+          <Snackbar
+            open={success}
+            autoHideDuration={3000}
+            onClose={handle_Success_Close}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            message="Success!"
+            theme="light"
           />
-          <AddButtonContainer
-            selectedTrack={selectedTrack}
-            selectedPlaylists={selectedPlaylists}
-            setSuccess={setSuccess}
-            setError={setError}
+          <Snackbar
+            open={error}
+            autoHideDuration={3000}
+            onClose={handle_Error_Close}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            message="Oops! Something went wrong."
           />
-        </Grid>
-      </Grid>
-      <div>
-        <Snackbar
-          open={success}
-          autoHideDuration={3000}
-          onClose={handle_Success_Close}
-          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-          message="Success!"
-        />
-        <Snackbar
-          open={error}
-          autoHideDuration={3000}
-          onClose={handle_Error_Close}
-          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-          message="Oops! Something went wrong."
-        />
+        </div>
       </div>
-    </div>
   );
 }
 

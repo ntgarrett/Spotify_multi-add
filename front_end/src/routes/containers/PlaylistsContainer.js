@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { RetrievePlaylists } from '../../utils/api';
 import Playlists from '../components/Playlists';
+import { useCookies } from 'react-cookie';
 
 const PlaylistsContainer = (props) => {
   const [playlists, setPlaylists] = useState([]);
-  const {selectedPlaylists, setSelectedPlaylists} = props;
+  const { selectedPlaylists, setSelectedPlaylists } = props;
+  const [cookies] = useCookies(['userID']);
 
   const handleChange = (e, playlist) => {
     const checkedList = [...selectedPlaylists];
@@ -16,25 +18,24 @@ const PlaylistsContainer = (props) => {
       checkedList.splice(index, 1);
     }
     setSelectedPlaylists(checkedList);
-  }
+  };
 
   useEffect(() => {
-    try {
-      RetrievePlaylists()
-        .then((response) => {
-          setPlaylists(response.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+    RetrievePlaylists(cookies.userID)
+      .then((response) => {
+        setPlaylists(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [cookies.userID]);
 
   return (
-    <Playlists 
-      playlists={playlists} 
+    <Playlists
+      playlists={playlists}
       handleChange={handleChange}
     />
   );
-}
+};
 
 export default PlaylistsContainer;

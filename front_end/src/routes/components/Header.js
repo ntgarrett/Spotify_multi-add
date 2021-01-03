@@ -2,12 +2,11 @@ import React from 'react';
 import { Typography, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = (theme) => ({
+const styles = () => ({
   root: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: "5vh",
   },
   title: {
     display: "flex",
@@ -28,6 +27,7 @@ const styles = (theme) => ({
 
 const Header = (props) => {
   const { classes } = props;
+
   return (
     <Grid container direction="column" className={classes.root}> 
       <Grid item> 
@@ -36,6 +36,6 @@ const Header = (props) => {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default withStyles(styles)(Header);
