@@ -1,73 +1,75 @@
-const axios = require('axios');
+import axios from 'axios';
+
 const API_ENDPOINT = "https://localhost:5000/api/";
 
+const instance = axios.create({
+  baseURL: API_ENDPOINT,
+  withCredentials: true,
+  timeout: 5000
+});
+
+
 const GetAuthURL = async (id) => {
-  return await axios({
+  return await instance({
     method: 'get',
-    url: API_ENDPOINT + 'verify',
+    url: 'verify',
     headers: {
       'Authorization': id
     },
-    withCredentials: true
   });
 };
 
 const SendCallbackCode = async (id, authCode) => {
   let data = { code: authCode };
-  return await axios({
+  return await instance({
     method: 'post',
-    url: API_ENDPOINT + 'callback',
+    url: 'callback',
     data: data,
     headers: {
       'Authorization': id
     },
-    withCredentials: true,
   });
 };
 
 const RetrievePlaylists = async (id) => {
-  return await axios({
+  return await instance({
     method: 'get',
     url: API_ENDPOINT + 'playlists',
     headers: {
       'Authorization': id
     },
-    withCredentials: true,
   });
 };
 
 const SearchForTrack = async (id, key) => {
-  return await axios({
+  return await instance({
     method: 'get',
-    url: API_ENDPOINT + `search?key=${key}`,
+    url: `search?key=${key}`,
     headers: {
       'Authorization': id,
     },
-    withCredentials: true,
   });
 };
 
 const AddTrackToPlaylists = async (id, trackID, playlists) => {
   let data = { Track_ID: trackID, Playlist_IDs: playlists };
-  return await axios({
+  return await instance({
     method: 'post',
-    url: API_ENDPOINT + 'addtrack',
+    url: 'addtrack',
     headers: {
       'Authorization': id,
     },
     data: data,
-    withCredentials: true,
   });
 };
 
 const SignOut = async (id) => {
-  return await axios({
+  return await instance({
     method: 'post',
-    url: API_ENDPOINT + 'signout',
+    url: 'signout',
     headers: {
       'Authorization': id,
     },
-    withCredentials: true,
   });
 };
 

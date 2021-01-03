@@ -21,13 +21,15 @@ const PlaylistsContainer = (props) => {
   };
 
   useEffect(() => {
-    RetrievePlaylists(cookies.userID)
+    if (typeof cookies.userID != "undefined") {
+      RetrievePlaylists(cookies.userID)
       .then((response) => {
         setPlaylists(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+    }
   }, [cookies.userID]);
 
   return (
