@@ -29,10 +29,14 @@ const Header = (props) => {
   const { classes } = props;
 
   return (
-    <Grid container direction="column" className={classes.root}> 
-      <Grid item> 
-        <Typography className={classes.title}> Spotify Multi-Add </Typography> 
-        <Typography className={classes.description}> Add tracks to multiple playlists simultaneously</Typography>
+    <Grid container direction="column" className={classes.root}>
+      <Grid item>
+        <Typography className={classes.title}>
+          Spotify Multi-Add
+        </Typography>
+        <Typography className={classes.description}>
+          Select a track, the playlist(s) to add it to, then click the add button!
+        </Typography>
       </Grid>
     </Grid>
   );

@@ -4,30 +4,40 @@ import { SearchForTrack } from '../../utils/api';
 import { useCookies } from 'react-cookie';
 
 const SearchBarContainer = (props) => {
-  const { setTracks, setSelectedTrack } = props;
+  const { setTracks, setSelectedTrack, setNoResults, setLoading } = props;
   const [value, setValue] = useState('');
-  const [idCookie] = useCookies(['userID']);
+  const [cookies] = useCookies(['userID']);
   const [prevValue, setPrevValue] = useState('');
 
   useEffect(() => {
     if (value.length === 0) {
       setTracks([]);
       setSelectedTrack({});
+      setPrevValue('');
     }
-  }, [value, setTracks, setSelectedTrack]);
+  }, [value, setTracks, setSelectedTrack, setPrevValue]);
 
   function search() {
-    if (value !== prevValue) {
-      SearchForTrack(idCookie.userID, value)
+    setLoading(true);
+    setNoResults(false);
+    var re = /^\s+$/;
+    var emptyQuery = re.exec(value);
+
+    if (value.trim() !== prevValue.trim() && !emptyQuery) {
+      SearchForTrack(cookies.userID, value.trim())
         .then((response) => {
           const trackResults = response.data;
+          if (trackResults.tracks.items.length === 0) {
+            setNoResults(true);
+          }
           setTracks(trackResults.tracks.items);
-          setPrevValue(value);
+          setPrevValue(value.trim());
         })
         .catch((error) => {
           console.log(error);
         });
     }
+    setLoading(false);
   };
 
   const onChange = e => {

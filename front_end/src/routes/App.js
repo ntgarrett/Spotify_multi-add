@@ -13,10 +13,10 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Grid, Typography } from '@material-ui/core/';
+import { Grid, Typography, Container, CircularProgress } from '@material-ui/core/';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = (theme) => ({
+const styles = () => ({
   root: {
     minWidth: "100vw",
     minHeight: "100vh",
@@ -31,6 +31,15 @@ const styles = (theme) => ({
   },
   addbutton: {
     justifyContent: "center",
+    marginTop: "5vh",
+  },
+  noresults: {
+    fontFamily: "Didact Gothic",
+    fontStyle: "Italic",
+    color: "grey",
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
     marginTop: "5vh",
   },
   plistheading: {
@@ -69,7 +78,9 @@ const App = (props) => {
   const { classes } = props;
   const [tracks, setTracks] = useState([]);
   const [selectedTrack, setSelectedTrack] = useState({});
+  const [noResults, setNoResults] = useState(false);
   const [selectedPlaylists, setSelectedPlaylists] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["userID"]);
@@ -111,13 +122,36 @@ const App = (props) => {
               <SearchBarContainer
                 setTracks={setTracks}
                 setSelectedTrack={setSelectedTrack}
+                setNoResults={setNoResults}
+                setLoading={setLoading}
               />
               <Paper className={classes.trackresultsbox}>
-                <TrackResultsContainer
-                  tracks={tracks}
-                  setSelectedTrack={setSelectedTrack}
-                  selectedTrack={selectedTrack}
-                />
+                {noResults ?
+                  <Typography className={classes.noresults}>
+                    No results found
+                  </Typography>
+                  :
+                  (
+                    loading ?
+                      <Container
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <CircularProgress />
+                      </Container>
+                      :
+                      <TrackResultsContainer
+                        tracks={tracks}
+                        setSelectedTrack={setSelectedTrack}
+                        selectedTrack={selectedTrack}
+                      />
+                  )
+                }
               </Paper>
             </div>
           </Grid>
