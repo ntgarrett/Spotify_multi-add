@@ -4,10 +4,11 @@ import { SearchForTrack } from '../../utils/api';
 import { useCookies } from 'react-cookie';
 
 const SearchBarContainer = (props) => {
-  const { setTracks, setSelectedTrack} = props;
+  const { setTracks, setSelectedTrack } = props;
   const [value, setValue] = useState('');
   const [idCookie] = useCookies(['userID']);
-  
+  const [prevValue, setPrevValue] = useState('');
+
   useEffect(() => {
     if (value.length === 0) {
       setTracks([]);
@@ -16,15 +17,17 @@ const SearchBarContainer = (props) => {
   }, [value, setTracks, setSelectedTrack]);
 
   function search() {
+    if (value !== prevValue) {
       SearchForTrack(idCookie.userID, value)
         .then((response) => {
-            const trackResults = response.data;
-            setTracks(trackResults.tracks.items);
+          const trackResults = response.data;
+          setTracks(trackResults.tracks.items);
+          setPrevValue(value);
         })
         .catch((error) => {
           console.log(error);
         });
-
+    }
   };
 
   const onChange = e => {
