@@ -95,9 +95,6 @@ const App = (props) => {
 
   const handle_Sign_Out = () => {
     SignOut(cookies.userID)
-      .then(() => {
-        removeCookie('userID');
-      });
   };
 
   return (
