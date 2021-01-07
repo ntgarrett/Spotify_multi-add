@@ -83,7 +83,8 @@ const App = (props) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["userID"]);
+  const [cookies] = useCookies(["userID"]);
+  const [authenticated, setAuthenticated] = useState(true);
 
   const handle_Success_Close = () => {
     setSuccess(false);
@@ -94,11 +95,12 @@ const App = (props) => {
   };
 
   const handle_Sign_Out = () => {
-    SignOut(cookies.userID)
+    SignOut(cookies.userID);
+    setAuthenticated(false);
   };
 
   return (
-    (typeof cookies.userID == "undefined") ?
+    !authenticated ?
       <Redirect to="/" />
       :
       <div className={classes.root}>
