@@ -95,14 +95,14 @@ const App = (props) => {
   };
 
   const handle_Sign_Out = () => {
-    SignOut(cookies.userID);
-    setAuthenticated(false);
+    SignOut(cookies.userID)
+      .then(() => {
+        setAuthenticated(false);
+      });
   };
 
   return (
-    !authenticated ?
-      <Redirect to="/" />
-      :
+    authenticated ?
       <div className={classes.root}>
         <Toolbar
           style={{ minHeight: "3vh" }}
@@ -203,6 +203,8 @@ const App = (props) => {
           />
         </div>
       </div>
+      :
+      <Redirect to="/" />
   );
 }
 
