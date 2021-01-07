@@ -11,7 +11,7 @@ const Login = () => {
     if (typeof cookies.userID == "undefined") {
       const id = uuidv4();
       setCookie("userID", id, {
-        expires: new Date(2147483647) 
+        expires: new Date(1894060029000)
       });
     }
   }, [setCookie, cookies.userID]);
