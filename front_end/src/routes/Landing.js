@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { useCookies } from 'react-cookie';
 
 const styles = () => ({
   root: {
@@ -48,13 +47,6 @@ const styles = () => ({
 
 const Landing = (props) => {
   const { history, classes } = props;
-  const [cookies, setCookie, removeCookie] = useCookies('userID');
-
-  useEffect(() => {
-    if (typeof cookies.userID != "undefined") {
-      removeCookie('userID');
-    }
-  }, [cookies.userID, removeCookie]);
 
   return (
     <div className={classes.root}>
