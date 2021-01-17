@@ -3,7 +3,6 @@ import sys
 import spotipy
 import time
 import uuid
-import ssl
 from flask import Flask, request, jsonify, session, make_response
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -17,7 +16,7 @@ app.config.update(
   SESSION_COOKIE_SAMESITE='NONE'
 )
 app.secret_key = os.getenv('SECRET_KEY')
-CORS(app,resources={r"/api/*"}, supports_credentials=True)
+CORS(app, supports_credentials=True)
 
 CLI_ID = os.getenv('SPOTIPY_CLIENT_ID')
 CLI_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
@@ -35,7 +34,7 @@ def before_request():
     if (token_is_expired): 
       refresh_token(userID)
 
-@app.route('/api/verify')
+@app.route('/verify')
 def verify():
   userID = request.headers.get('Authorization')
   oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, cache_path=(caches_folder + userID), show_dialog=SHOW_DIALOG)
@@ -43,7 +42,7 @@ def verify():
   
   return make_response({'auth_url': auth_url})
 
-@app.route('/api/callback', methods=['POST'])
+@app.route('/callback', methods=['POST'])
 def callback():
   userID = request.headers.get('Authorization')
   oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, cache_path=(caches_folder + userID), show_dialog=SHOW_DIALOG)
@@ -56,7 +55,7 @@ def callback():
   else:
     return "Internal Server Error", 500
 
-@app.route('/api/playlists')
+@app.route('/playlists')
 def playlists():
   sp = spotipy.Spotify(auth=session['token'].get('access_token'))
   username = sp.current_user().get('id')
@@ -78,7 +77,7 @@ def playlists():
     res = make_response(jsonify(results))
     return res
 
-@app.route('/api/search')
+@app.route('/search')
 def search():
   sp = spotipy.Spotify(auth=session['token'].get('access_token'))
   key = request.args.get('key')
@@ -86,7 +85,7 @@ def search():
   res = make_response(sp.search(q=key,limit=20,type='track',market="from_token"))
   return res
 
-@app.route("/api/addtrack", methods=['POST'])
+@app.route("/addtrack", methods=['POST'])
 def addtrack():
   sp = spotipy.Spotify(auth=session['token'].get('access_token'))
   username = sp.current_user().get('id')
@@ -101,7 +100,7 @@ def addtrack():
   res = make_response("Added " + str(track_id) + " to playlists: " + str(playlist_ids))
   return res
 
-@app.route('/api/signout', methods=['POST'])
+@app.route('/signout', methods=['POST'])
 def signout():
   userID = request.headers.get('Authorization')
   os.remove(caches_folder + str(userID))
@@ -114,6 +113,4 @@ def refresh_token(userID):
   session['token'] = new_token
 
 if __name__ == '__main__':
-  context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-  context.load_cert_chain('cert.crt', 'key.pem')
-  app.run(host='localhost', ssl_context=context)
+  app.run()
