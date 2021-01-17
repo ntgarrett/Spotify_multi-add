@@ -47,10 +47,10 @@ def callback():
   oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, show_dialog=SHOW_DIALOG)
   code = request.get_json().get('code')
   token = oauth.get_access_token(code)
- 
-  if (token):
-    session['token'] = token
-    return "Logged in successfully", 200
+  session['token'] = token
+
+  if 'token' in session:
+    return "OK", 200
   else:
     return "Internal Server Error", 500
 
