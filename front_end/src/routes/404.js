@@ -45,12 +45,7 @@ const PageNotFound = (props) => {
         size="large"
         variant="contained"
         onClick={() => {
-          if (typeof cookies.userID != "undefined") {
-            history.push("/app");
-          }
-          else {
-            history.push("/");
-          }
+          history.push("/");
         }}
       >
         Return to Application
