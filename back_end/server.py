@@ -23,7 +23,6 @@ CLI_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
 REDIR_URI = os.getenv('SPOTIPY_REDIRECT_URI')
 SCOPE = 'playlist-modify-public playlist-modify-private playlist-read-private user-read-private'
 SHOW_DIALOG = True
-caches_folder = './.spotify_caches/'
 
 @app.before_request
 def before_request():
@@ -37,7 +36,7 @@ def before_request():
 @app.route('/verify')
 def verify():
   userID = request.headers.get('Authorization')
-  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, cache_path=(caches_folder + userID), show_dialog=SHOW_DIALOG)
+  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, show_dialog=SHOW_DIALOG)
   auth_url = oauth.get_authorize_url()
   
   return make_response({'auth_url': auth_url})
@@ -45,7 +44,7 @@ def verify():
 @app.route('/callback', methods=['POST'])
 def callback():
   userID = request.headers.get('Authorization')
-  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, cache_path=(caches_folder + userID), show_dialog=SHOW_DIALOG)
+  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, show_dialog=SHOW_DIALOG)
   code = request.get_json().get('code')
   token = oauth.get_access_token(code)
  
@@ -108,7 +107,7 @@ def signout():
   return "Signed out successfully", 200
     
 def refresh_token(userID):
-  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, cache_path=(caches_folder + userID), show_dialog=SHOW_DIALOG)
+  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, scope=SCOPE, show_dialog=SHOW_DIALOG)
   new_token = oauth.refresh_access_token(session.get('token').get('refresh_token'))
   session['token'] = new_token
 
