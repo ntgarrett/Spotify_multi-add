@@ -49,10 +49,7 @@ def callback():
   token = oauth.get_access_token(code)
   session['token'] = token
 
-  if 'token' in session:
-    return "OK", 200
-  else:
-    return "Internal Server Error", 500
+  return "OK", 200
 
 @app.route('/playlists')
 def playlists():
