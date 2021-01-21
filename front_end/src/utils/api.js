@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_ENDPOINT = "https://ntgarrett.pythonanywhere.com/";
+const API_ENDPOINT = "https://9z83vi2nh9.execute-api.us-east-2.amazonaws.com/dev";
 
 const instance = axios.create({
   baseURL: API_ENDPOINT,
