@@ -5,9 +5,7 @@ const API_ENDPOINT = "https://9z83vi2nh9.execute-api.us-east-2.amazonaws.com/dev
 const instance = axios.create({
   baseURL: API_ENDPOINT,
   withCredentials: true,
-  //timeout: 5000
 });
-
 
 const GetAuthURL = async (id) => {
   return await instance({
