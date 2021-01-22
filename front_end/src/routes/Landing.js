@@ -54,7 +54,7 @@ const Landing = (props) => {
         Spotify Multi-Add
       </Typography>
       <Typography className={classes.about}>
-        Search for tracks, and add them to one or more of your playlists
+        Search for tracks, and add them to one or more of your playlists simultaneously
       </Typography>
       <Typography className={classes.info}>
        * You need a Spotify premium account to use this website *
