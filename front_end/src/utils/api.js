@@ -34,7 +34,7 @@ const SendCallbackCode = async (id, authCode) => {
 const RetrievePlaylists = async (id) => {
   return await instance({
     method: 'get',
-    url: API_ENDPOINT + 'playlists',
+    url: 'playlists',
     headers: {
       'Authorization': id
     },
