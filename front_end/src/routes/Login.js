@@ -5,16 +5,7 @@ import { GetAuthURL } from '../utils/api';
 import { Container, CircularProgress } from "@material-ui/core";
 
 const Login = () => {
-  const [cookies, setCookie] = useCookies(["userID"]);
-
-  useEffect(() => {
-    if (typeof cookies.userID == "undefined") {
-      const id = uuidv4();
-      setCookie("userID", id, {
-        expires: new Date(1894060029000)
-      });
-    }
-  }, [setCookie, cookies.userID]);
+  const [cookies] = useCookies(["userID"]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -47,6 +47,16 @@ const styles = () => ({
 
 const Landing = (props) => {
   const { history, classes } = props;
+  const [cookies, setCookie] = useCookies(["userID"]);
+
+  useEffect(() => {
+    if (typeof cookies.userID == "undefined") {
+      const id = uuidv4();
+      setCookie("userID", id, {
+        expires: new Date(1894060029000)
+      });
+    }
+  }, [setCookie, cookies.userID]);
 
   return (
     <div className={classes.root}>
