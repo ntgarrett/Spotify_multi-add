@@ -1,4 +1,4 @@
 /venv
 /.spotify_caches
-cert.crt
-key.pem
+/spotipy
+zappa_settings.json
