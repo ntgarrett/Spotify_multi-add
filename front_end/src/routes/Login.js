@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { GetAuthURL } from '../utils/api';
 import { Container, CircularProgress } from "@material-ui/core";
-import { useCookies } from "react-cookie";
 
 const Login = () => {
   const [cookies] = useCookies(["userID"]);
