@@ -58,7 +58,7 @@ const Landing = (props) => {
         expires: new Date(1894060029000)
       });
     }
-  }, [setCookie, cookies.userID]);
+  });
 
   return (
     <div className={classes.root}>

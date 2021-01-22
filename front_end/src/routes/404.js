@@ -2,7 +2,6 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { useCookies } from 'react-cookie';
 
 const styles = () => ({
   root: {
@@ -32,7 +31,6 @@ const styles = () => ({
 
 const PageNotFound = (props) => {
   const { history, classes } = props;
-  const [cookies] = useCookies('userID');
   return (
     <div className={classes.root}>
       <Typography
