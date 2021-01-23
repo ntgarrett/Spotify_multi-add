@@ -7,16 +7,13 @@ const Login = () => {
   const [cookies] = useCookies(["userID"]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      GetAuthURL(cookies.userID)
-        .then((res) => {
-          window.location.href = res.data.auth_url;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }, 1500);
-    return () => clearTimeout(timer);
+    GetAuthURL(cookies.userID)
+      .then((res) => {
+        window.location.href = res.data.auth_url;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, [cookies.userID]);
 
 
