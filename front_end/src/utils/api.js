@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_ENDPOINT = "https://9z83vi2nh9.execute-api.us-east-2.amazonaws.com/dev";
+const API_ENDPOINT = 
+  process.env.NODE_ENV === "production"
+  ? "https://9z83vi2nh9.execute-api.us-east-2.amazonaws.com/dev"
+  : "http://localhost:5000/";
 
 const instance = axios.create({
   baseURL: API_ENDPOINT,
