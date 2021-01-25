@@ -21,10 +21,18 @@ REDIR_URI = os.getenv('SPOTIPY_REDIRECT_URI')
 SCOPE = 'playlist-modify-public playlist-modify-private playlist-read-private user-read-private'
 SHOW_DIALOG = True
 
+def cache_env(userID):
+  if (sys.argv[1] == "dev"):
+    # Cache is stored locally in project directory
+    return spotipy.CacheFileHandler(userID)
+  else:
+    # Cache is stored in AWS S3 bucket
+    return S3CacheHandler(f'.cache/{userID}')
+
 @app.before_request
 def before_request():
   userID = request.headers.get('Authorization')
-  CacheHandler = S3CacheHandler(f'.cache/{userID}')
+  CacheHandler = cache_env(userID)
   token = CacheHandler.get_cached_token()
   if (token is not None):
     current_time = int(time.time())
@@ -35,7 +43,7 @@ def before_request():
 @app.route('/verify')
 def verify():
   userID = request.headers.get('Authorization')
-  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, cache_handler=S3CacheHandler(f'.cache/{userID}'), scope=SCOPE, show_dialog=SHOW_DIALOG)
+  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, cache_handler=cache_env(userID), scope=SCOPE, show_dialog=SHOW_DIALOG)
   auth_url = oauth.get_authorize_url()
   
   res = make_response({'auth_url': auth_url})
@@ -44,7 +52,7 @@ def verify():
 @app.route('/callback', methods=['POST'])
 def callback():
   userID = request.headers.get('Authorization')
-  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, cache_handler=S3CacheHandler(f'.cache/{userID}'), scope=SCOPE, show_dialog=SHOW_DIALOG, requests_timeout=5)
+  oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SECRET, redirect_uri=REDIR_URI, cache_handler=cache_env(userID), scope=SCOPE, show_dialog=SHOW_DIALOG, requests_timeout=5)
   code = request.get_json().get('code')
   token = oauth.get_access_token(code)
 
@@ -57,7 +65,7 @@ def callback():
 @app.route('/playlists')
 def playlists():
   userID = request.headers.get('Authorization')
-  CacheHandler = S3CacheHandler(f'.cache/{userID}')
+  CacheHandler = cache_env(userID)
   sp = spotipy.Spotify(auth=CacheHandler.get_cached_token().get('access_token'))
   username = sp.current_user().get('id')
   
@@ -81,7 +89,7 @@ def playlists():
 @app.route('/search')
 def search():
   userID = request.headers.get('Authorization')
-  CacheHandler = S3CacheHandler(f'.cache/{userID}')
+  CacheHandler = cache_env(userID)
   sp = spotipy.Spotify(auth=CacheHandler.get_cached_token().get('access_token'))
   key = request.args.get('key')
 
@@ -91,7 +99,7 @@ def search():
 @app.route("/addtrack", methods=['POST'])
 def addtrack():
   userID = request.headers.get('Authorization')
-  CacheHandler = S3CacheHandler(f'.cache/{userID}')
+  CacheHandler = cache_env(userID)
   sp = spotipy.Spotify(auth=CacheHandler.get_cached_token().get('access_token'))
   username = sp.current_user().get('id')
   
@@ -108,10 +116,14 @@ def addtrack():
 @app.route('/signout', methods=['POST'])
 def signout():
   userID = request.headers.get('Authorization')
-  CacheHandler = S3CacheHandler(f'.cache/{userID}')
-  CacheHandler.delete_cached_token()
+  CacheHandler = cache_env(userID)
+  
+  if (sys.argv[1] == "dev"):
+    os.remove(userID)
+  else:
+    CacheHandler.delete_cached_token()
 
-  res = make_response("Signed out successfully", 200)
+  res = make_response("Signed out", 200)
   return res
     
 def refresh_token(userID, CacheHandler):
