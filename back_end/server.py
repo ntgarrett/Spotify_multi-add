@@ -93,7 +93,7 @@ def search():
   sp = spotipy.Spotify(auth=CacheHandler.get_cached_token().get('access_token'))
   key = request.args.get('key')
 
-  res = make_response(sp.search(q=key,limit=20,type='track',market="from_token"))
+  res = make_response(sp.search(q=key,limit=10,type='track',market="from_token"))
   return res
 
 @app.route("/addtrack", methods=['POST'])
