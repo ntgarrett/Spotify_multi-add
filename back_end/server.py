@@ -19,10 +19,11 @@ CLI_ID = os.getenv('SPOTIPY_CLIENT_ID')
 CLI_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
 REDIR_URI = os.getenv('SPOTIPY_REDIRECT_URI')
 SCOPE = 'playlist-modify-public playlist-modify-private playlist-read-private user-read-private'
+ENV = os.getenv('ENV')
 SHOW_DIALOG = True
 
 def cache_env(userID):
-  if (sys.argv[1] == "dev"):
+  if (ENV == "dev"):
     # Cache is stored locally in project directory
     return spotipy.CacheFileHandler(userID)
   else:
@@ -118,7 +119,7 @@ def signout():
   userID = request.headers.get('Authorization')
   CacheHandler = cache_env(userID)
   
-  if (sys.argv[1] == "dev"):
+  if (ENV == "dev"):
     os.remove(userID)
   else:
     CacheHandler.delete_cached_token()
