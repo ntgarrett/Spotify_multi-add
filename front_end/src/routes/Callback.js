@@ -1,46 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../utils/Context';
 import { SendCallbackCode } from '../utils/api';
 import { useCookies } from 'react-cookie';
 import { Redirect } from 'react-router-dom';
 import { Container, CircularProgress } from "@material-ui/core";
 
 const Callback = () => {
+  const { authenticated, setAuthenticated } = useContext(AuthContext);
   const [cookies] = useCookies(["userID"]);
-  const [authorized, setAuthorized] = useState(false);
+  const [userClickedDenied, setUserClickedDenied] = useState(false);
 
   // Grab code from Spotify redirect_uri to generate an auth token
-  const callback = window.location.href;
-  const parsed = callback.split('=');
-  const authCode = parsed[1];
+  const authCode = window.location.href.split('=')[1];
 
   useEffect(() => {
-    SendCallbackCode(cookies.userID, authCode)
-      .then(() => {
-        setAuthorized(true);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [cookies.userID, authCode, setAuthorized]);
+    if (authCode !== "access_denied") {
+      SendCallbackCode(cookies.userID, authCode)
+        .then(() => {
+          setAuthenticated(true);
+          localStorage.setItem("userStatus", "true");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      setUserClickedDenied(true);
+    }
+  }, [cookies.userID, authCode, setAuthenticated, setUserClickedDenied]);
 
   return (
-    authorized ?
-      <Redirect to="/app"/>
-      :
-      <div>
-        <Container
-          style={{
-            width: "100vw",
-            height: "100vh",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <CircularProgress />
-        </Container>
-      </div>
+    userClickedDenied ?
+      <Redirect to="/" />
+      : (authenticated ?
+        <Redirect to="/app" />
+        :
+        <div style={{ display: "flex", flexGrow: 1 }}>
+          <Container
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress style={{ color: "#121212" }} />
+          </Container>
+        </div>
+      )
   );
-}
+};
 
 export default Callback;
