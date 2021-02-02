@@ -18,17 +18,15 @@ const Login = () => {
 
 
   return (
-    <div>
+    <div style={{ display: "flex", flexGrow: 1 }}>
       <Container
         style={{
-          width: "100vw",
-          height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <CircularProgress />
+        <CircularProgress style={{ color:"#121212" }}/>
       </Container>
     </div>
   );
