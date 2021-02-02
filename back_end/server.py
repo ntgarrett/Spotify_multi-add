@@ -60,14 +60,21 @@ def callback():
   if token:
     res = make_response("Success", 200)
   else:
-    res = make_response("Internal Server Error", 500)
+    res = make_response("Internal server error: could not generate token", 500)
   return res
 
 @app.route('/playlists')
 def playlists():
   userID = request.headers.get('Authorization')
-  CacheHandler = cache_env(userID)
-  sp = spotipy.Spotify(auth=CacheHandler.get_cached_token().get('access_token'))
+  token = None
+
+  if (cache_env(userID).get_cached_token()):
+    token = cache_env(userID).get_cached_token().get('access_token')
+  
+  if token is None:
+    return "Spotify authorization token not found", 401
+
+  sp = spotipy.Spotify(auth=token)
   username = sp.current_user().get('id')
   
   playlists = sp.user_playlists(username)
@@ -77,7 +84,8 @@ def playlists():
       if (playlist['owner']['id'] == username):
         results.append({
           "id": playlist['id'],
-          "name": playlist['name'] 
+          "name": playlist['name'],
+          "isChecked": False 
         })
     if playlists['next']:
       playlists = sp.next(playlists)
@@ -90,18 +98,32 @@ def playlists():
 @app.route('/search')
 def search():
   userID = request.headers.get('Authorization')
-  CacheHandler = cache_env(userID)
-  sp = spotipy.Spotify(auth=CacheHandler.get_cached_token().get('access_token'))
-  key = request.args.get('key')
+  token = None
 
+  if (cache_env(userID).get_cached_token()):
+    token = cache_env(userID).get_cached_token().get('access_token')
+  
+  if token is None:
+    return "Spotify authorization token not found", 401
+    
+  sp = spotipy.Spotify(auth=token)
+
+  key = request.args.get('key')
   res = make_response(sp.search(q=key,limit=10,type='track',market="from_token"))
   return res
 
 @app.route("/addtrack", methods=['POST'])
 def addtrack():
   userID = request.headers.get('Authorization')
-  CacheHandler = cache_env(userID)
-  sp = spotipy.Spotify(auth=CacheHandler.get_cached_token().get('access_token'))
+  token = None
+
+  if (cache_env(userID).get_cached_token()):
+    token = cache_env(userID).get_cached_token().get('access_token')
+  
+  if token is None:
+    return "Spotify authorization token not found", 401
+    
+  sp = spotipy.Spotify(auth=token)
   username = sp.current_user().get('id')
   
   req_data = request.get_json()
