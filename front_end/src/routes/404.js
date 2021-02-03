@@ -33,7 +33,7 @@ const PageNotFound = (props) => {
 
   const determineRedirect = () => {
     const userStatus = localStorage.getItem('userStatus');
-    if (authenticated && userStatus === "true") {
+    if (userStatus === "true") {
       return "/app";
     } else {
       return "/";
