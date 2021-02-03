@@ -1,41 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { RetrievePlaylists } from '../../utils/api';
+import React, { useEffect } from 'react';
 import Playlists from '../components/Playlists';
-import { useCookies } from 'react-cookie';
 
 const PlaylistsContainer = (props) => {
-  const [playlists, setPlaylists] = useState([]);
-  const { selectedPlaylists, setSelectedPlaylists } = props;
-  const [cookies] = useCookies(['userID']);
-
-  const handleChange = (e, playlist) => {
-    const checkedList = [...selectedPlaylists];
-
-    if (e.target.checked) {
-      checkedList.push(playlist.id);
-    } else {
-      const index = checkedList.indexOf(playlist);
-      checkedList.splice(index, 1);
-    }
-    setSelectedPlaylists(checkedList);
-  };
+  const { playlists, setPlaylists, filtered, setSelectedPlaylists } = props;
 
   useEffect(() => {
-    if (typeof cookies.userID != "undefined") {
-      RetrievePlaylists(cookies.userID)
-      .then((response) => {
-        setPlaylists(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    }
-  }, [cookies.userID]);
+    let plists = [...playlists];
+    let selected = [];
+    plists.forEach((plist) => {
+      if (plist.isChecked) {
+        selected.push(plist);
+      }
+    });
+    setSelectedPlaylists(selected);
+  }, [playlists, setSelectedPlaylists]);
+
+  const handleChecked = (event, playlist) => {
+    setPlaylists((prevPlaylists) => prevPlaylists.map((item) => {
+      if (item !== playlist) return item;
+      return { ...playlist, isChecked: event.target.checked }
+    }));
+  };
 
   return (
     <Playlists
       playlists={playlists}
-      handleChange={handleChange}
+      handleChecked={handleChecked}
+      filtered={filtered}
     />
   );
 };
