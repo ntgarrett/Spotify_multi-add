@@ -4,7 +4,8 @@ import { SearchForTrack } from '../../utils/api';
 import { useCookies } from 'react-cookie';
 
 const SearchBarContainer = (props) => {
-  const { setTracks, setSelectedTrack, setNoResults, setLoading } = props;
+  const { setTracks, setSelectedTrack, setNoResults, setLoading, setGoTo401 } = props;
+  
   const [value, setValue] = useState('');
   const [cookies] = useCookies(['userID']);
   const [prevValue, setPrevValue] = useState('');
@@ -32,11 +33,15 @@ const SearchBarContainer = (props) => {
           }
           setTracks(trackResults.tracks.items);
           setPrevValue(value.trim());
+
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 401) {
+            setGoTo401(true);
+          }
         });
-    }
+    };
     setLoading(false);
   };
 
@@ -54,6 +59,6 @@ const SearchBarContainer = (props) => {
       onClick={search}
     />
   );
-}
+};
 
 export default SearchBarContainer;
