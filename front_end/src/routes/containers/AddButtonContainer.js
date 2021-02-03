@@ -4,29 +4,33 @@ import { AddTrackToPlaylists } from '../../utils/api';
 import { useCookies } from 'react-cookie';
 
 const AddButtonContainer = (props) => {
-  const {selectedTrack, setSelectedTrack, selectedPlaylists, setSuccess, setError} = props;
+  const { selectedTrack, setSelectedTrack, selectedPlaylists, setSuccess, setGoTo401 } = props;
   const [cookies] = useCookies(['userID']);
 
+  const playlistIDs = (selectedPlaylists) => {
+    let plistIDs = []
+    selectedPlaylists.forEach((plist) => {
+      plistIDs.push(plist.id);
+    });
+    return plistIDs;
+  }
+
   const handleClick = () => {
-    try {
-      AddTrackToPlaylists(cookies.userID, selectedTrack.uri, selectedPlaylists)
-        .then((response) => {
-          console.log(response);
-          if (response.status === 200) {
-            setSuccess(true);
-            setSelectedTrack({});
-          }
-          else {
-            setError(true);
-          }
-        }); 
-    } catch (error) {
-      setError(true);
-    }
+    AddTrackToPlaylists(cookies.userID, selectedTrack.uri, playlistIDs(selectedPlaylists))
+      .then(() => {
+        setSuccess(true);
+        setSelectedTrack({});
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 401) {
+          setGoTo401(true);
+        }
+      });
   };
 
   return (
-    <AddButton 
+    <AddButton
       handleClick={handleClick}
       selectedTrack={selectedTrack}
       selectedPlaylists={selectedPlaylists}
