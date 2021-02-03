@@ -7,33 +7,39 @@ import CheckBox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 
 const Playlists = (props) => {
-    const plistItems = props.playlists.map((playlist) =>
-    <ListItem key={playlist.id}>
-      <ListItemText>
-        <Typography
-          noWrap
-          style={{
-            marginLeft: "1em",
-            fontFamily: "Didact Gothic",
-            fontSize: "1.2em",
-          }}
-        >
-          {playlist.name}
-        </Typography>
-      </ListItemText>
-      <ListItemIcon>
-        <CheckBox onChange={(e) => props.handleChange(e, playlist)} />
-      </ListItemIcon>
-    </ListItem>
+  const { playlists, handleChecked, filtered } = props;
 
-  );
+  const plistItems = filtered
+    ? playlists.filter(plist => plist.name.toLowerCase().includes(filtered.toLowerCase()))
+    : playlists;
+
   return (
     <div>
       <List>
-        {plistItems}
+        {plistItems.map((playlist) => {
+          return (
+            <ListItem key={playlist.id}>
+              <ListItemText>
+                <Typography
+                  noWrap
+                  variant="body1"
+                  style={{
+                    marginLeft: "1em",
+                    fontFamily: "Didact Gothic",
+                  }}
+                >
+                  {playlist.name}
+                </Typography>
+              </ListItemText>
+              <ListItemIcon>
+                <CheckBox onChange={(e) => handleChecked(e, playlist)} checked={playlist.isChecked}/>
+              </ListItemIcon>
+            </ListItem>
+          )
+        })}
       </List>
     </div>
   );
-}
+};
 
 export default Playlists;
