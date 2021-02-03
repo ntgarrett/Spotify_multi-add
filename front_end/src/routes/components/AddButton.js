@@ -1,23 +1,23 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
-  root: {
-    justifyContent: "center",
-    display: "flex",
-  },
   button: {
     fontFamily: "Didact Gothic",
-    fontSize: "1.5em",
     textTransform: "none",
-  }
+  },
+  text: {
+    fontFamily: "Didact Gothic",
+    padding: theme.spacing(1),
+  },
 });
 
 const AddButton = (props) => {
   const { classes, selectedTrack, selectedPlaylists, handleClick } = props;
   return (
-    <div className={classes.root}>
+    <div>
       <Button
         className={classes.button}
         size="large"
@@ -25,7 +25,12 @@ const AddButton = (props) => {
         onClick={handleClick}
         disabled={((Object.keys(selectedTrack).length === 0) || (selectedPlaylists.length === 0))}
       >
-        Add to Playlist(s)
+        <Typography
+          className={classes.text}
+          variant="h5"
+        >
+          Add to Playlist(s)
+        </Typography>
       </Button>
     </div>
   );
