@@ -1,47 +1,37 @@
 import React, { useEffect } from 'react';
-import Button from '@material-ui/core/Button';
 import { v4 as uuidv4 } from 'uuid';
 import { useCookies } from 'react-cookie';
-import { Typography } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
+import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
-    minWidth: "100vw",
-    minHeight: "100vh",
-    background: "linear-gradient(#000000, #1db950)",
+    flexGrow: 1,
   },
-  title: {
+  description: {
     display: "flex",
     justifyContent: "center",
+    textAlign: "center",
     fontFamily: "Didact Gothic",
-    fontSize: "6em",
-    color: "white",
-    paddingTop: "15vh",
+    paddingTop: "25vh",
   },
-  about: {
+  inforoot: {
     display: "flex",
     justifyContent: "center",
-    fontFamily: "Didact Gothic",
-    fontSize: "1.5em",
-    color: "white",
-    paddingTop: "5vh",
   },
   info: {
-    display: "flex",
-    justifyContent: "center",
+
+    textAlign: "center",
     fontFamily: "Didact Gothic",
-    fontSize: "1.2em",
-    color: "white",
-    paddingTop: "15vh",
+    padding: theme.spacing(4)
   },
-  button: {
+  loginbutton: {
     display: "flex",
-    justifyContent: "center",
     fontFamily: "Didact Gothic",
     fontSize: "1.5em",
     textTransform: "none",
-    marginTop: "5vh",
     marginLeft: "auto",
     marginRight: "auto",
   },
@@ -60,25 +50,44 @@ const Landing = (props) => {
     }
   });
 
+  useEffect(() => {
+    localStorage.setItem("userStatus", "false");
+  }, []);
+
   return (
     <div className={classes.root}>
-      <Typography className={classes.title}>
-        Spotify Multi-Add
+      <Typography
+        className={classes.description}
+        variant="h4"
+      >
+        Add tracks to multiple playlists simultaneously
       </Typography>
-      <Typography className={classes.about}>
-        Search for tracks, and add them to one or more of your playlists simultaneously
-      </Typography>
-      <Typography className={classes.info}>
-       * You need a Spotify premium account to use this website *
-      </Typography>
+      <div className={classes.inforoot}>
+        <Typography
+          className={classes.info}
+          variant="body1"
+        >
+          You need&nbsp;
+          <Link
+            href="https://www.spotify.com/us/premium/"
+            target="_blank"
+            rel="noreferrer"
+            color="textSecondary"
+          >
+            Spotify Premium
+          </Link>
+          &nbsp;to use this website
+        </Typography>
+      </div>
       <Button
-        className={classes.button}
+        className={classes.loginbutton}
         size="large"
         variant="contained"
+        color="primary"
         onClick={() => history.push("/login")}
       >
         Login with Spotify
-      </Button>
+        </Button>
     </div>
   );
 };
