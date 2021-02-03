@@ -1,30 +1,56 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import Popover from '@material-ui/core/Popover';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
-  text: {
-    justifyContent: "center",
+  root: {
     display: "flex",
-    marginBottom: "3vh",
+    justifyContent: "center",
+  },
+  popover: {
     fontFamily: "Didact Gothic",
-    fontSize: "1.5em",
+    padding: theme.spacing(2),
+  },
+  text: {
+    fontFamily: "Didact Gothic",
     color: "white",
   },
 });
 
 const AddMessage = (props) => {
-  const { classes, selectedTrack, selectedPlaylists } = props;
+  const { classes, id, open, handleClick, handlePopoverClose, anchorEl, selectedTrackInfo, selectedPlaylistsInfo } = props;
 
   return (
-    <Typography
-      noWrap
-      component="span"
-      className={classes.text}
-      style={{ opacity: (Object.keys(selectedTrack).length === 0) ? "0" : "1" }}
-    >
-      Add "{selectedTrack.name}" to {selectedPlaylists.length} Playlist(s)
-    </Typography>
+    <div className={classes.root}>
+      <Typography
+        variant="h6"
+        className={classes.text}
+        onClick={handleClick}
+      >
+        View Selected Tracks/Playlists
+      </Typography>
+      <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handlePopoverClose}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          color="primary"
+      >
+        <Typography className={classes.popover}>
+          {selectedTrackInfo} <br/> <br/>
+          {selectedPlaylistsInfo}
+        </Typography>
+      </Popover>
+    </div>
   );
 };
 
