@@ -13,36 +13,40 @@ const styles = (theme) => ({
   },
   input: {
     fontFamily: "Didact Gothic",
+    justifyContent: "center",
     display: "flex",
-    padding: "0.5em",
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    paddingLeft: "1em",
   },
 });
 
 const SearchBar = (props) => {
-  const { classes } = props;
+  const { classes, value, onChange, onClick } = props;
 
   return (
-    <div>
-      <Paper className={classes.paper} elevation={0}>
-        <Input
-          className={classes.input}
-          type="search"
-          value={props.value}
-          onChange={e => props.onChange(e)}
-          placeholder="Search for tracks"
-          disableUnderline={false}
-          onKeyDown={props.onChange}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton onClick={props.onClick}>
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
+    <div className={classes.root}>
+      <Paper className={classes.paper} elevation={0} id="searchInput">
+          <Input
+            id="searchText"
+            className={classes.input}
+            type="search"
+            value={value}
+            onChange={e => onChange(e)}
+            placeholder="Search for tracks"
+            disableUnderline={false}
+            onKeyDown={onChange}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton onClick={onClick}>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
       </Paper>
     </div>
   );
-}
+};
 
 export default withStyles(styles)(SearchBar);
