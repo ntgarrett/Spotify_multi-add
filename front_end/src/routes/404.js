@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import { AuthContext } from '../utils/Context';
 
 const styles = () => ({
   root: {
@@ -28,6 +29,16 @@ const styles = () => ({
 
 const PageNotFound = (props) => {
   const { history, classes, logoutPressed } = props;
+  const { authenticated } = useContext(AuthContext);
+
+  const determineRedirect = () => {
+    const userStatus = localStorage.getItem('userStatus');
+    if (authenticated && userStatus === "true") {
+      return "/app";
+    } else {
+      return "/";
+    }
+  };
 
   return (
     logoutPressed ?
@@ -45,7 +56,7 @@ const PageNotFound = (props) => {
         size="large"
         variant="contained"
         onClick={() => {
-          history.push("/");
+          history.push({determineRedirect});
         }}
       >
         Return to Application
