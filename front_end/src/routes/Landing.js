@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useCookies } from 'react-cookie';
-import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
@@ -15,17 +14,7 @@ const styles = (theme) => ({
     justifyContent: "center",
     textAlign: "center",
     fontFamily: "Didact Gothic",
-    paddingTop: "25vh",
-  },
-  inforoot: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  info: {
-
-    textAlign: "center",
-    fontFamily: "Didact Gothic",
-    padding: theme.spacing(4)
+    paddingTop: "30vh",
   },
   loginbutton: {
     display: "flex",
@@ -34,6 +23,7 @@ const styles = (theme) => ({
     textTransform: "none",
     marginLeft: "auto",
     marginRight: "auto",
+    marginTop: theme.spacing(4),
   },
 });
 
@@ -62,23 +52,6 @@ const Landing = (props) => {
       >
         Add tracks to multiple playlists simultaneously
       </Typography>
-      <div className={classes.inforoot}>
-        <Typography
-          className={classes.info}
-          variant="body1"
-        >
-          You need&nbsp;
-          <Link
-            href="https://www.spotify.com/us/premium/"
-            target="_blank"
-            rel="noreferrer"
-            color="textSecondary"
-          >
-            Spotify Premium
-          </Link>
-          &nbsp;to use this website
-        </Typography>
-      </div>
       <Button
         className={classes.loginbutton}
         size="large"
