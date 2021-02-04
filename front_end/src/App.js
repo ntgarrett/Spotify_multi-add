@@ -15,8 +15,7 @@ const styles = () => ({
   App: {
     display: "flex",
     flexDirection: "column",
-    //background: "linear-gradient(to top, #1C6E25, #1ED760)",
-    background: "#1ED760",
+    background: "linear-gradient(to top, #1C6E25, #1ED760)",
     minHeight: "100vh",
     minWidth: "100vw",
   }
