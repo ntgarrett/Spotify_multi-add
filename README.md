@@ -48,7 +48,6 @@ Mobile browsing is supported:
 * Implement analytics
 * Add a "Create a playlist" feature
 <br>
-<br>
 
 ## Contact
 
