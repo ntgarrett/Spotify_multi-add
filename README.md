@@ -1,6 +1,6 @@
 <img src="front_end/src/assets/appicon.svg" align="right" height="120px" />
 
-# Spotify Multi-Add &nbsp; [![guide](https://img.shields.io/badge/Link-https%3A%2F%2Fmultiplaylistadd.com-brightgreen)](https://multiplaylistadd.com)
+# Spotify Multi-Add &nbsp; [![guide](https://img.shields.io/badge/Link-https%3A%2F%2Fmultiplaylistadd.com-blue)](https://multiplaylistadd.com)
 > **Spotify Multi-Add** is a full stack application to search for tracks and add them to more than one of your playlists simultaneously.
 
 If you have a [Spotify](https://www.spotify.com/) account, go to https://multiplaylistadd.com to access the app. 
@@ -17,7 +17,6 @@ In order to learn how to develop a full stack application and utilize technologi
 
 <img src="demo/ArchitectureDiagram.png">
 <br>
-<br>
 
 [![guide](https://img.shields.io/badge/POSTMAN%20DOCUMENTATION-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://documenter.getpostman.com/view/11631692/TW74iQBZ)
 <br>
@@ -26,7 +25,7 @@ In order to learn how to develop a full stack application and utilize technologi
 ## Technologies 
 ![image](https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)&nbsp;![image](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)&nbsp;![image](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)&nbsp;![image](https://img.shields.io/badge/Spotify-1ED760?&style=for-the-badge&logo=spotify&logoColor=white)&nbsp;![image](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)&nbsp;![image](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white) 
 
-Spotify Multi-Add uses the [Spotipy](https://spotipy.readthedocs.io/en/2.16.1/) library to implement [Spotify Authorization Code Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow). The Flask server is converted into a Serverless AWS Lambda function and deployed via [Zappa](https://github.com/Miserlou/Zappa). The frontend is hosted with AWS Amplify and changes pushed to the master branch are built and deployed automatically.
+Spotify Multi-Add uses the [Spotipy](https://spotipy.readthedocs.io/en/2.16.1/) library to implement [Spotify Authorization Code Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow). The Flask server is converted into a Serverless AWS Lambda function and deployed via [Zappa](https://github.com/Miserlou/Zappa). The front end is hosted with AWS Amplify and changes pushed to the master branch are built and deployed automatically.
 <br>
 <br>
 
@@ -36,7 +35,6 @@ Adding a track to multiple playlists is made easy. Simply search for and select 
 
 <img src="demo/DesktopDemo.gif">
 <br>
-<br>
 
 ## Responsive styling
 
@@ -44,12 +42,13 @@ Mobile browsing is supported:
 
 <p align="center"><img src="demo/MobileDemo.gif" width=35%></p>
 
-
 ## Todo List
 
 * Improve server error handling
 * Implement analytics
 * Add a "Create a playlist" feature
+<br>
+<br>
 
 ## Contact
 
