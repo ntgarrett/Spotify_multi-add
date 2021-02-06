@@ -20,7 +20,7 @@ CLI_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
 REDIR_URI = os.getenv('SPOTIPY_REDIRECT_URI')
 SCOPE = 'playlist-modify-public playlist-modify-private playlist-read-private user-read-private'
 ENV = os.getenv('ENV')
-SHOW_DIALOG = True
+SHOW_DIALOG = False
 
 def cache_env(userID):
   if (ENV == "dev"):
