@@ -34,7 +34,6 @@ Spotify Multi-Add uses the [Spotipy](https://spotipy.readthedocs.io/en/2.16.1/) 
 Adding a track to multiple playlists is made easy. Simply search for and select a track, then check the playlists you'd like to add it to. If you have a lot of playlists, use the filter to find specific ones. Press the play button on the track to open it in Spotify.
 
 <img src="demo/DesktopDemo.gif">
-<br>
 
 ## Responsive styling
 
@@ -47,7 +46,6 @@ Mobile browsing is supported:
 * Improve server error handling
 * Implement analytics
 * Add a "Create a playlist" feature
-<br>
 
 ## Contact
 

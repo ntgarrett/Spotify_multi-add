@@ -1,6 +1,6 @@
 <img src="src/assets/appicon.svg" align="right" height="120px" />
 
-# Spotify Multi-Add Front End &nbsp; [![guide](https://img.shields.io/badge/Link-https%3A%2F%2Fmultiplaylistadd.com-brightgreen)](https://multiplaylistadd.com)
+# Spotify Multi-Add Front End &nbsp; [![guide](https://img.shields.io/badge/Link-https%3A%2F%2Fmultiplaylistadd.com-blue)](https://multiplaylistadd.com)
 
 > **Spotify Multi-Add** is a full stack application to search for tracks and add them to more than one of your playlists simultaneously.
 
