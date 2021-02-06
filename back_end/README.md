@@ -11,4 +11,4 @@ The Spotify Multi-Add backend is written in Python, using the [Spotipy](https://
 
 ## API Documentation
 
-See the [Postman](INSERT_POSTMAN_DOC) documentation for API requests.
+See the [Postman](https://documenter.getpostman.com/view/11631692/TW74iQBZ) documentation for API requests.
